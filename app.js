@@ -62,15 +62,20 @@ window.addEventListener("DOMContentLoaded", () => {
   };
 
   // CHAT
-  document.getElementById("sendBtn").onclick = async () => {
-    const text = document.getElementById("messageInput").value;
+document.getElementById("sendBtn").onclick = async () => {
+  const text = document.getElementById("messageInput").value;
 
-    if (!text) return;
-
-    await addDoc(collection(db, "messages"), {
+  try {
+    const docRef = await addDoc(collection(db, "messages"), {
       text: text,
       createdAt: Date.now()
     });
+
+    console.log("Message saved with ID:", docRef.id);
+  } catch (err) {
+    console.error("Write failed:", err);
+  }
+};
 
     document.getElementById("messageInput").value = "";
   };
