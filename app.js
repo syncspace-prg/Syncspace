@@ -17,53 +17,77 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  // your config
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBuqFPs5qfenyzPo5mcO8xhVaBYCTb5Cfw",
+  authDomain: "syncspace-b0c77.firebaseapp.com",
+  projectId: "syncspace-b0c77",
+  storageBucket: "syncspace-b0c77.firebasestorage.app",
+  messagingSenderId: "898472105255",
+  appId: "1:898472105255:web:92fe09babcb6a9da30c502",
+  measurementId: "G-1S5YC0TJES"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// LOGIN
-document.getElementById("signup").onclick = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+window.addEventListener("DOMContentLoaded", () => {
 
-  await createUserWithEmailAndPassword(auth, email, password);
-};
+  const status = document.getElementById("status");
 
-document.getElementById("login").onclick = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  // LOGIN
+  document.getElementById("signup").onclick = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  await signInWithEmailAndPassword(auth, email, password);
-};
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      status.textContent = "Account created!";
+    } catch (err) {
+      status.textContent = err.message;
+    }
+  };
 
-// CHAT
-document.getElementById("sendBtn").onclick = async () => {
-  const text = document.getElementById("messageInput").value;
+  document.getElementById("login").onclick = async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-  if (!text) return;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      status.textContent = "Logged in!";
+    } catch (err) {
+      status.textContent = err.message;
+    }
+  };
 
-  await addDoc(collection(db, "messages"), {
-    text: text,
-    createdAt: Date.now()
+  // CHAT
+  document.getElementById("sendBtn").onclick = async () => {
+    const text = document.getElementById("messageInput").value;
+
+    if (!text) return;
+
+    await addDoc(collection(db, "messages"), {
+      text: text,
+      createdAt: Date.now()
+    });
+
+    document.getElementById("messageInput").value = "";
+  };
+
+  // LOAD MESSAGES
+  const q = query(collection(db, "messages"), orderBy("createdAt"));
+
+  onSnapshot(q, (snapshot) => {
+    const chatBox = document.getElementById("chatBox");
+    chatBox.innerHTML = "";
+
+    snapshot.forEach((doc) => {
+      const msg = doc.data();
+      const div = document.createElement("div");
+      div.textContent = msg.text;
+      chatBox.appendChild(div);
+    });
   });
 
-  document.getElementById("messageInput").value = "";
-};
-
-// LOAD MESSAGES
-const q = query(collection(db, "messages"), orderBy("createdAt"));
-
-onSnapshot(q, (snapshot) => {
-  const chatBox = document.getElementById("chatBox");
-  chatBox.innerHTML = "";
-
-  snapshot.forEach((doc) => {
-    const msg = doc.data();
-    const div = document.createElement("div");
-    div.textContent = msg.text;
-    chatBox.appendChild(div);
-  });
 });
