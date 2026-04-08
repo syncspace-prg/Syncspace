@@ -1,98 +1,35 @@
-console.log("App started");
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SyncSpace 🎵</title>
+</head>
+<body>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+<h1>SyncSpace 🎵</h1>
 
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  onSnapshot,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+<h2>Login</h2>
 
-const firebaseConfig = {
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBuqFPs5qfenyzPo5mcO8xhVaBYCTb5Cfw",
-  authDomain: "syncspace-b0c77.firebaseapp.com",
-  projectId: "syncspace-b0c77",
-  storageBucket: "syncspace-b0c77.firebasestorage.app",
-  messagingSenderId: "898472105255",
-  appId: "1:898472105255:web:92fe09babcb6a9da30c502",
-  measurementId: "G-1S5YC0TJES"
-};
+<input id="email" placeholder="Email">
+<br><br>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+<input id="password" type="password" placeholder="Password">
+<br><br>
 
-window.addEventListener("DOMContentLoaded", () => {
+<button id="signup">Sign Up</button>
+<button id="login">Log In</button>
 
-  const status = document.getElementById("status");
+<p id="status">Loading...</p>
 
-  // LOGIN
-  document.getElementById("signup").onclick = async () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+<hr>
 
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      status.textContent = "Account created!";
-    } catch (err) {
-      status.textContent = err.message;
-    }
-  };
+<h2>Messages</h2>
 
-  document.getElementById("login").onclick = async () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+<input id="messageInput" placeholder="Type a message">
+<button id="sendBtn">Send</button>
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      status.textContent = "Logged in!";
-    } catch (err) {
-      status.textContent = err.message;
-    }
-  };
+<div id="chatBox"></div>
 
-  // CHAT
-document.getElementById("sendBtn").onclick = async () => {
-  const text = document.getElementById("messageInput").value;
+<script type="module" src="app.js"></script>
 
-  try {
-    const docRef = await addDoc(collection(db, "messages"), {
-      text: text,
-      createdAt: Date.now()
-    });
-
-    console.log("Message saved with ID:", docRef.id);
-  } catch (err) {
-    console.error("Write failed:", err);
-  }
-};
-
-    document.getElementById("messageInput").value = "";
-  };
-
-  // LOAD MESSAGES
-  const q = query(collection(db, "messages"), orderBy("createdAt"));
-
-  onSnapshot(q, (snapshot) => {
-    const chatBox = document.getElementById("chatBox");
-    chatBox.innerHTML = "";
-
-    snapshot.forEach((doc) => {
-      const msg = doc.data();
-      const div = document.createElement("div");
-      div.textContent = msg.text;
-      chatBox.appendChild(div);
-    });
-  });
-
-});
+</body>
+</html>
