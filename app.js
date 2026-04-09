@@ -1,22 +1,72 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  const firebaseConfig = {
-  apiKey: "test",
-  authDomain: "test",
-  projectId: "test"
+  apiKey: "AIzaSyBuqFPs5qfenyzPo5mcO8xhVaBYCTb5Cfw",
+  authDomain: "syncspace-b0c77.firebaseapp.com",
+  projectId: "syncspace-b0c77",
+  storageBucket: "syncspace-b0c77.firebasestorage.app",
+  messagingSenderId: "898472105255",
+  appId: "1:898472105255:web:92fe09babcb6a9da30c502",
+  measurementId: "G-1S5YC0TJES"
+};
 };
 
 const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 window.addEventListener("DOMContentLoaded", () => {
+
   const status = document.getElementById("status");
+  status.textContent = "🔥 SyncSpace connected";
 
-  status.textContent = "🔥 Firebase initialized";
+  const chatBox = document.getElementById("chatBox");
 
-  document.getElementById("sendBtn").onclick = () => {
-    status.textContent = "Send works (no DB yet)";
+  // 💬 SEND MESSAGE
+  document.getElementById("sendBtn").onclick = async () => {
+    const text = document.getElementById("messageInput").value;
+
+    if (!text) {
+      status.textContent = "⚠️ Type something first";
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "messages"), {
+        text: text,
+        createdAt: Date.now()
+      });
+
+      document.getElementById("messageInput").value = "";
+      status.textContent = "🎵 Sent!";
+    } catch (err) {
+      status.textContent = "❌ " + err.message;
+    }
   };
+
+  // 📡 LOAD MESSAGES
+  const q = query(collection(db, "messages"), orderBy("createdAt"));
+
+  onSnapshot(q, (snapshot) => {
+    chatBox.innerHTML = "";
+
+    snapshot.forEach((doc) => {
+      const msg = doc.data();
+
+      const div = document.createElement("div");
+      div.textContent = msg.text;
+
+      chatBox.appendChild(div);
+    });
+  });
+
 });
