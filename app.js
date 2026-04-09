@@ -2,10 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebas
 import {
   getFirestore,
   collection,
-  addDoc,
-  onSnapshot,
-  query,
-  orderBy
+  addDoc
 } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -16,57 +13,34 @@ const firebaseConfig = {
   projectId: "syncspace-b0c77",
   storageBucket: "syncspace-b0c77.firebasestorage.app",
   messagingSenderId: "898472105255",
-  appId: "1:898472105255:web:92fe09babcb6a9da30c502",
-  measurementId: "G-1S5YC0TJES"
+  appId: "1:898472105255:web:20e224801182e1c430c502",
+  measurementId: "G-EZXE8QHF7P"
 };
 };
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
 
 window.addEventListener("DOMContentLoaded", () => {
-
   const status = document.getElementById("status");
-  status.textContent = "🔥 SyncSpace connected";
 
-  const chatBox = document.getElementById("chatBox");
+  try {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  // 💬 SEND MESSAGE
-  document.getElementById("sendBtn").onclick = async () => {
-    const text = document.getElementById("messageInput").value;
+    status.textContent = "🔥 Firebase loaded";
 
-    if (!text) {
-      status.textContent = "⚠️ Type something first";
-      return;
-    }
+    document.getElementById("sendBtn").onclick = async () => {
+      try {
+        await addDoc(collection(db, "messages"), {
+          text: "test",
+          createdAt: Date.now()
+        });
 
-    try {
-      await addDoc(collection(db, "messages"), {
-        text: text,
-        createdAt: Date.now()
-      });
+        status.textContent = "✅ Sent!";
+      } catch (err) {
+        status.textContent = "❌ SEND ERROR: " + err.message;
+      }
+    };
 
-      document.getElementById("messageInput").value = "";
-      status.textContent = "🎵 Sent!";
-    } catch (err) {
-      status.textContent = "❌ " + err.message;
-    }
-  };
-
-  // 📡 LOAD MESSAGES
-  const q = query(collection(db, "messages"), orderBy("createdAt"));
-
-  onSnapshot(q, (snapshot) => {
-    chatBox.innerHTML = "";
-
-    snapshot.forEach((doc) => {
-      const msg = doc.data();
-
-      const div = document.createElement("div");
-      div.textContent = msg.text;
-
-      chatBox.appendChild(div);
-    });
-  });
-
+  } catch (err) {
+    status.textContent = "❌ INIT ERROR: " + err.message;
+  }
 });
