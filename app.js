@@ -1,3 +1,3 @@
 window.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("status").textContent = "JS IS RUNNING ✅";
+  document.getElementById("status").textContent = "JS WORKS ✅";
 });
