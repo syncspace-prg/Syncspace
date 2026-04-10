@@ -12,24 +12,27 @@ window.addEventListener("DOMContentLoaded", () => {
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   document.getElementById("sendBtn").onclick = async () => {
-    const text = input.value;
+  const status = document.getElementById("status");
+  const text = document.getElementById("messageInput").value;
 
-    if (!text) {
-      status.textContent = "Type something first";
-      return;
-    }
+  if (!text) {
+    status.textContent = "Type something first";
+    return;
+  }
 
-    status.textContent = "Sending...";
+  status.textContent = "CLICKED → trying to send...";
 
+  try {
     const { error } = await supabase.from("messages").insert({
       text
     });
 
     if (error) {
-      status.textContent = "ERROR: " + error.message;
+      status.textContent = "❌ ERROR: " + error.message;
     } else {
-      status.textContent = "SENT ✅";
-      input.value = "";
+      status.textContent = "✅ SENT";
     }
-  };
-});
+  } catch (e) {
+    status.textContent = "💥 CRASH: " + e.message;
+  }
+};
