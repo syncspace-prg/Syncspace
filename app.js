@@ -36,7 +36,13 @@ window.addEventListener("DOMContentLoaded", () => {
   load();
 document.getElementById("sendBtn").onclick = () => {
   document.getElementById("status").textContent = "BUTTON CLICKED ✅";
-};
+};window.addEventListener("DOMContentLoaded", () => {
+  const status = document.getElementById("status");
+
+  document.getElementById("sendBtn").onclick = () => {
+    status.textContent = "CLICK WORKS ✅";
+  };
+});
   document.getElementById("sendBtn").onclick = async () => {
     const text = input.value;
     if (!text) return;
