@@ -1,44 +1,35 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SyncSpace 🎵</title>
+</head>
+<body>
 
-const supabaseUrl = https://fizuvliegegrsoqdjjfd.supabase.co
-const supabaseKey = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpenV2bGllZ2VncnNvcWRqamZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3ODQzNTksImV4cCI6MjA5MTM2MDM1OX0.XUDBmYuEYBVr3QgnZB0dMs6sSuT7UPOrUTP5BhnbMew;
+<h1>SyncSpace 🎵</h1>
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+<h2>Login</h2>
 
-window.addEventListener("DOMContentLoaded", () => {
-  const status = document.getElementById("status");
-  const chatBox = document.getElementById("chatBox");
-  const input = document.getElementById("messageInput");
+<input id="email" placeholder="Email">
+<br><br>
 
-  status.textContent = "🔥 SyncSpace connected";
+<input id="password" type="password" placeholder="Password">
+<br><br>
 
-  async function load() {
-    const { data } = await supabase
-      .from("messages")
-      .select("*")
-      .order("created_at", { ascending: true });
+<button id="signup">Sign Up</button>
+<button id="login">Log In</button>
 
-    chatBox.innerHTML = "";
+<p id="status">Loading...</p>
 
-    data.forEach(m => {
-      const div = document.createElement("div");
-      div.textContent = m.text;
-      chatBox.appendChild(div);
-    });
-  }
+<hr>
 
-  load();
+<h2>Messages</h2>
 
-  document.getElementById("sendBtn").onclick = async () => {
-    const text = input.value;
-    if (!text) return;
+<input id="messageInput" placeholder="Type a message">
+<button id="sendBtn">Send</button>
 
-    await supabase.from("messages").insert({
-      text,
-      created_at: Date.now()
-    });
+<div id="chatBox"></div>
 
-    input.value = "";
-    load();
-  };
-});
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
