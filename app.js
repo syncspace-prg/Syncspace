@@ -46,8 +46,7 @@ window.addEventListener("DOMContentLoaded", () => {
     status.textContent = "Sending...";
 
     const { error } = await supabase.from("messages").insert({
-      text,
-      created_at: Date.now()
+      text:text
     });
 
     if (error) {
