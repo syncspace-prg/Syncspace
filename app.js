@@ -34,7 +34,9 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   load();
-
+document.getElementById("sendBtn").onclick = () => {
+  document.getElementById("status").textContent = "BUTTON CLICKED ✅";
+};
   document.getElementById("sendBtn").onclick = async () => {
     const text = input.value;
     if (!text) return;
