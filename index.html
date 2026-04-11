@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="styles.css">
   <title>SyncSpace 🎵</title>
 </head>
 <body>
+<div class="chat-container">
 
+  <div class="chat-header">
+    SyncSpace 🎵
+  </div>
+
+  <div class="chat-messages" id="chatBox">
+    <!-- messages go here -->
+  </div>
+
+  <div class="chat-footer">
+    <input id="messageInput" type="text" placeholder="Type a message">
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <div id="status">Loading...</div>
+
+</div>
+
+<script type="module" src="app.js"></script>
 <h1>SyncSpace 🎵</h1>
 
 <h2>Login</h2>
