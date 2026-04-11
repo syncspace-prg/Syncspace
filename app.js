@@ -1,6 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("status").textContent = "LIVE UPDATE WORKS 🚀";
   const status = document.getElementById("status");
   const input = document.getElementById("messageInput");
 
