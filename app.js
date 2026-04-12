@@ -1,29 +1,40 @@
-window.addEventListener("DOMContentLoaded", () => {
-  const status = document.getElementById("status");
+const status = document.getElementById("status");
+const chatBox = document.getElementById("chatBox");
+const input = document.getElementById("messageInput");
+const btn = document.getElementById("sendBtn");
 
-  status.textContent = "JS STARTED";
+status.textContent = "CONNECTING...";
 
-  try {
-    const chatBox = document.getElementById("chatBox");
-    const btn = document.getElementById("sendBtn");
+// IMPORTANT: Supabase import
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-    if (!chatBox) {
-      status.textContent = "❌ chatBox missing";
-      return;
-    }
+const supabase = createClient(
+  "https://fizuvliegegrsoqdjjfd.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpenV2bGllZ2VncnNvcWRqamZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3ODQzNTksImV4cCI6MjA5MTM2MDM1OX0.XUDBmYuEYBVr3QgnZB0dMs6sSuT7UPOrUTP5BhnbMew"
+);
 
-    if (!btn) {
-      status.textContent = "❌ sendBtn missing";
-      return;
-    }
+status.textContent = "CONNECTED";
 
-    status.textContent = "UI OK";
+btn.onclick = async () => {
+  const text = input.value.trim();
+  if (!text) return;
 
-    btn.onclick = () => {
-      status.textContent = "CLICK WORKS";
-    };
+  // 1. save to database
+  const { error } = await supabase
+    .from("messages")
+    .insert({ text });
 
-  } catch (e) {
-    status.textContent = "💥 " + e.message;
+  if (error) {
+    status.textContent = "ERROR: " + error.message;
+    return;
   }
-});
+
+  // 2. show in UI
+  const div = document.createElement("div");
+  div.className = "message sent";
+  div.textContent = text;
+  chatBox.appendChild(div);
+
+  input.value = "";
+  status.textContent = "SENT ✔";
+};
