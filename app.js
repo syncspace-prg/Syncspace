@@ -1,39 +1,29 @@
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
 window.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("status").textContent = "LIVE UPDATE WORKS 🚀";
   const status = document.getElementById("status");
-  const input = document.getElementById("messageInput");
 
-  status.textContent = "JS LOADED ✔️";
-
-  const supabaseUrl ="https://fizuvliegegrsoqdjjfd.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpenV2bGllZ2VncnNvcWRqamZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3ODQzNTksImV4cCI6MjA5MTM2MDM1OX0.XUDBmYuEYBVr3QgnZB0dMs6sSuT7UPOrUTP5BhnbMew";
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  document.getElementById("sendBtn").onclick = async () => {
-  const status = document.getElementById("status");
-  const text = document.getElementById("messageInput").value;
-
-  if (!text) {
-    status.textContent = "Type something first";
-    return;
-  }
-
-  status.textContent = "CLICKED → trying to send...";
+  status.textContent = "JS STARTED";
 
   try {
-    const { error } = await supabase.from("messages").insert({
-      text
-    });
+    const chatBox = document.getElementById("chatBox");
+    const btn = document.getElementById("sendBtn");
 
-    if (error) {
-      status.textContent = "❌ ERROR: " + error.message;
-    } else {
-      status.textContent = "✅ SENT";
+    if (!chatBox) {
+      status.textContent = "❌ chatBox missing";
+      return;
     }
+
+    if (!btn) {
+      status.textContent = "❌ sendBtn missing";
+      return;
+    }
+
+    status.textContent = "UI OK";
+
+    btn.onclick = () => {
+      status.textContent = "CLICK WORKS";
+    };
+
   } catch (e) {
-    status.textContent = "💥 CRASH: " + e.message;
+    status.textContent = "💥 " + e.message;
   }
-};
+});
