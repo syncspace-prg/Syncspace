@@ -1,3 +1,4 @@
+console.log("SUPABASE?", window.supabase);
 console.log("JS LOADED");
 
 const status = document.getElementById("status");
