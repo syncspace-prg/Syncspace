@@ -14,6 +14,7 @@ const client = window.supabase.createClient(
 status.textContent = "CONNECTED";
 
 btn.onclick = async () => {
+  alert("the f word was clicked and pooped on");
   const text = input.value.trim();
   if (!text) return;
 
