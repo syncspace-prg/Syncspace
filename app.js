@@ -14,10 +14,33 @@ const client = window.supabase.createClient(
 status.textContent = "CONNECTED";
 
 btn.onclick = async () => {
-  alert("the f word was clicked and pooped on");
   const text = input.value.trim();
   if (!text) return;
 
+  status.textContent = "SENDING...";
+
+  const { data, error } = await client
+    .from("messages")
+    .insert({ text })
+    .select();
+
+  if (error) {
+    status.textContent = "ERROR";
+    console.log(error);
+    alert("ERROR: " + error.message);
+    return;
+  }
+
+  console.log("SAVED:", data);
+
+  const div = document.createElement("div");
+  div.className = "message sent";
+  div.textContent = text;
+  chatBox.appendChild(div);
+
+  input.value = "";
+  status.textContent = "SENT ✔";
+};
   status.textContent = "SENDING...";
 
   const githubBtn = document.getElementById("githubLogin");
