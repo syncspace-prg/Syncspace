@@ -1,76 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SyncSpace 🎵</title>
+  <title>SyncSpace Chat</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<div class="app">
+<div id="chatBox"></div>
 
-  <!-- LEFT SIDEBAR -->
-  <div class="sidebar">
-    <div class="logo">S</div>
-    <div class="nav">
-      <div class="nav-item active">Chat</div>
-      <div class="nav-item">Meetings</div>
-      <div class="nav-item">Workspaces</div>
-      <div class="nav-item">Friends</div>
-      <div class="nav-item">Email</div>
-    </div>
-  </div>
+<input id="messageInput">
+<button id="sendBtn">Send</button>
 
-  <!-- MIDDLE PANEL -->
-  <div class="conversations">
-    <div class="top-bar">
-      <h3>Messages</h3>
-    </div>
-
-    <input class="search" placeholder="Search messages...">
-
-    <div class="chat-list">
-      <div class="chat-item active">
-        <div class="avatar"></div>
-        <div>
-          <div class="name">Sarah Jenkins</div>
-          <div class="preview">Let's review the design...</div>
-        </div>
-      </div>
-
-      <div class="chat-item">
-        <div class="avatar"></div>
-        <div>
-          <div class="name">Design Team</div>
-          <div class="preview">3 new files uploaded</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RIGHT CHAT PANEL -->
-  <div class="chat-panel">
-
-    <div class="chat-header">
-      <div class="avatar"></div>
-      <div>
-        <div class="name">Sarah Jenkins</div>
-        <div class="status">Active now</div>
-      </div>
-    </div>
-
-    <div id="chatBox" class="messages"></div>
-
-    <div class="chat-footer">
-      <input id="messageInput" placeholder="Type a message">
-      <button id="sendBtn">Send</button>
-    </div>
-
-  </div>
-
-</div> id="status">Loading...</div>
-
-</div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="app.js"></script>
 
