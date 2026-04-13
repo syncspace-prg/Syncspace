@@ -20,7 +20,19 @@ btn.onclick = async () => {
 
   status.textContent = "SENDING...";
 
-  const { error } = await client
+  const githubBtn = document.getElementById("githubLogin");
+
+githubBtn.onclick = async () => {
+  const { data, error } = await client.auth.signInWithOAuth({
+    provider: "github"
+  });
+
+  if (error) {
+    console.log(error);
+    status.textContent = "GitHub login failed";
+  }
+};
+const { error } = await client
     .from("messages")
     .insert({ text });
 
