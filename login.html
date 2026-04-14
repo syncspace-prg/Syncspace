@@ -6,10 +6,26 @@
 </head>
 <body>
 
-<h1>SyncSpace</h1>
-<button id="githubLogin">Login with GitHub</button>
+<div class="login-container">
+  <h1>SyncSpace</h1>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- EMAIL LOGIN -->
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+
+  <button id="loginBtn">Login</button>
+  <button id="signupBtn">Sign Up</button>
+
+  <!-- MAGIC LINK -->
+  <button id="magicBtn">Send Magic Link</button>
+
+  <hr>
+
+  <!-- GITHUB -->
+  <button id="githubLogin">Login with GitHub</button>
+
+  <div id="status"></div>
+</div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="login.js"></script>
 
 </body>
