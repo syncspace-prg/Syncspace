@@ -31,7 +31,12 @@ document.getElementById("loginBtn").onclick = async () => {
     window.location.href = "index.html";
   }
 };
-
+await client.auth.signInWithOAuth({
+  provider: "github",
+  options: {
+    redirectTo: window.location.origin + "/index.html"
+  }
+});
 // SIGN UP
 document.getElementById("signupBtn").onclick = async () => {
   const { error } = await client.auth.signUp({
