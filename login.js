@@ -3,6 +3,17 @@ const client = window.supabase.createClient(
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpenV2bGllZ2VncnNvcWRqamZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3ODQzNTksImV4cCI6MjA5MTM2MDM1OX0.XUDBmYuEYBVr3QgnZB0dMs6sSuT7UPOrUTP5BhnbMew"
 );
 
+
+// after login or page load
+async function checkUser() {
+  const { data } = await client.auth.getSession();
+
+  if (data.session) {
+    window.location.href = "index.html";
+  }
+}
+
+checkUser();
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const status = document.getElementById("status");
